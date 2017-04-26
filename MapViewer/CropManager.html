@@ -1,0 +1,143 @@
+<html>
+<head>
+	<title>Crop Manager</title>
+	<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css"/>
+	<link rel="stylesheet" href="https://www.w3schools.com/w3css/3/w3.css">
+	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css"
+		integrity="sha512-07I2e+7D8p6he1SIM+1twR5TIrhUQn9+I6yjqD53JQjFiMf8EtC93ty0/5vJTZGF8aAocvHYNEDJajGdNx1IsQ=="
+		crossorigin=""/>
+	<script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
+	<script src="./leaflet.edgebuffer.js"></script>
+
+	<!-- Start of style css-->
+	<style>
+	#map{ width: 100%; height: 92.6%; }
+	</style>
+
+	<style>
+	body {
+	font-family: "Lato", sans-serif;
+	}
+
+	.sidenav {
+		height: 100%;
+		width: 0;
+		position: fixed;
+		z-index: 1;
+		top: 0;
+		left: 0;
+		background-color: #111;
+		overflow-x: hidden;
+		transition: 0.5s;
+		padding-top: 60px;
+	}
+
+	.sidenav a {
+		padding: 8px 8px 8px 32px;
+		text-decoration: none;
+		font-size: 25px;
+		color: #818181;
+		display: block;
+		transition: 0.3s;
+	}
+
+	.sidenav a:hover, .offcanvas a:focus{
+		color: #f1f1f1;
+	}
+
+	.sidenav .closebtn {
+		position: absolute;
+		top: 0;
+		right: 25px;
+		font-size: 36px;
+		margin-left: 50px;
+	}
+
+	#main {
+		transition: margin-left .5s;
+		padding: 0px;
+	}
+
+	@media screen and (max-height: 450px) {
+		.sidenav {padding-top: 15px;}
+		.sidenav a {font-size: 18px;}
+	}
+  </style>
+
+<!-- start of real program -->
+
+</head>
+<body>
+	<div id="mySidenav" class="sidenav">
+		<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+		<a href="#">Measurements</a>
+		<a href="#">Layers</a>
+		<a href="#">Cunts</a>
+		<a href="#">Contact</a>
+	</div>
+
+	<div id="main">
+		<nav class="w3-bar w3-black">
+			<a href="#Menu" class="w3-button w3-bar-item"></a>
+			<span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776; Menu</span>
+	</div>
+
+<script>
+	function openNav() {
+		document.getElementById("mySidenav").style.width = "250px";
+		document.getElementById("main").style.marginLeft = "250px";
+	}
+	function closeNav() {
+		document.getElementById("mySidenav").style.width = "0";
+		document.getElementById("main").style.marginLeft= "0";
+    }
+</script>
+
+
+	<div id="map"></div>
+
+<script>
+// initialize the map
+var map = L.map('map').setView([44.56, -123.26], 15);
+map.zoomControl.setPosition('topright');
+
+// set tile layer
+var mapMain= L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',{
+	attribution: 'Tiles by ArcGIS, Data by <a href="http://mass.gov/mgis">MassGIS</a>',
+	maxZoom: 21,
+	minZoom: 10
+});
+    
+var mapGrayscale = L.tileLayer('https://tiles.wmflabs.org/bw-mapnik/{z}/{x}/{y}.png',{
+	attribution: 'Tiles by ArcGIS, Data by <a href="http://mass.gov/mgis">MassGIS</a>',
+	edgeBufferTiles: 2,
+	maxZoom: 30,
+	minZoom: 2
+});
+
+var baseMaps = {
+	"MapMain": mapMain,
+	"Grayscale": mapGrayscale
+};
+
+// load a tile layer
+L.control.layers(baseMaps).addTo(map);
+mapMain.addTo(map);
+
+//image overlay
+var bounds = map.getBounds();
+var overlay = new L.ImageOverlay("http://i.imgur.com/ORhXMf2.png", bounds, {
+	opacity: 0.35,
+	interactive: true, //true if you want a function linked to it
+	attribution: '| reddit I think, but url is imgur'
+});
+map.addLayer(overlay);
+
+</script>
+
+<footer class="w3-container  w3-center w3-black">
+	<article class="w3-right">
+	<p>JS Aerial Imaging</p>
+	
+</body>
+</html>
